@@ -6,4 +6,4 @@
 	url = https://github.com/vampirefrog/midilib.git
 [submodule "sf2cute"]
 	path = sf2cute
-	url = https://github.com/gocha/sf2cute.git
+	url = https://github.com/Thysbelon/sf2cute.git
