@@ -84,7 +84,7 @@ $(TARGETS):$$(sort $$@.o $$(patsubst %.cpp,%.o,$$(patsubst %.c,%.o,$$($$@_SRCS))
 	$(CC) $(filter %.o, $^) -o $@ $(CFLAGS) $(LIBS) $($@_LIBS)
 
 pdx2sf2:$$(sort $$@.o $$(patsubst %.cpp,%.o,$$(patsubst %.c,%.o,$$($$@_SRCS))))
-	$(CPPC) $(filter %.o, $^) -o $@ $(CFLAGS) $(LIBS) $($@_LIBS)
+	$(CPPC) $(filter %.o, $^) -o $@ $(CFLAGS) $(LIBS) -static-libstdc++ $($@_LIBS)
 
 mmlc.tab.c mmlc.tab.h: mmlc.y
 	$(YACC) -v -o mmlc.tab.c --defines=mmlc.tab.h $(filter %.y,$^)
