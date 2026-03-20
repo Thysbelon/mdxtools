@@ -6,7 +6,7 @@ LEX=flex
 CFLAGS=-ggdb -Wall -DFIXED_POINT -DOUTSIDE_SPEEX -DRANDOM_PREFIX=speex -DEXPORT= -D_GNU_SOURCE -DHAVE_MEMCPY -DSAMPLE_BITS=16 -Ix68ksjis $(shell pkg-config portaudio-2.0 sndfile --cflags)
 LIBS=$(shell pkg-config portaudio-2.0 sndfile --libs)
 ifneq (,$(findstring MINGW,$(shell uname -s)))
-LIBS+=-liconv -lws2_32 -static-libgcc
+LIBS+= -liconv -lws2_32 -static-libgcc
 endif
 
 PROGS=\
@@ -65,6 +65,10 @@ pdx2sf2: sf2cute/build/libsf2cute.a
 
 pdx2sf2_LIBS=sf2cute/build/libsf2cute.a
 
+ifneq (,$(findstring MINGW,$(shell uname -s)))
+pdx2sf2_LIBS+= -static-libstdc++ -lole32 -luuid -lshlwapi -Wl,-Bstatic -lpthread
+endif
+
 # Tests
 resample-test_SRCS=resample-test.c fixed_resampler.c sinctbl4.h sinctbl3.h
 fm-driver-test_SRCS=tools.c ym2151.c fm_driver.c fm_opm_driver.c fm_opm_emu_driver.c mdx.c vgm_logger.c vgm_logger.h
@@ -84,7 +88,7 @@ $(TARGETS):$$(sort $$@.o $$(patsubst %.cpp,%.o,$$(patsubst %.c,%.o,$$($$@_SRCS))
 	$(CC) $(filter %.o, $^) -o $@ $(CFLAGS) $(LIBS) $($@_LIBS)
 
 pdx2sf2:$$(sort $$@.o $$(patsubst %.cpp,%.o,$$(patsubst %.c,%.o,$$($$@_SRCS))))
-	$(CPPC) $(filter %.o, $^) -o $@ $(CFLAGS) $(LIBS) -static-libstdc++ $($@_LIBS)
+	$(CPPC) $(filter %.o, $^) -o $@ $(CFLAGS) $(LIBS) $($@_LIBS)
 
 mmlc.tab.c mmlc.tab.h: mmlc.y
 	$(YACC) -v -o mmlc.tab.c --defines=mmlc.tab.h $(filter %.y,$^)
