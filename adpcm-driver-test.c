@@ -25,9 +25,9 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	adpcm_driver_play((struct adpcm_driver *)&driver, 2, sample, sample_len, 4, 255);
-	adpcm_driver_play((struct adpcm_driver *)&driver, 4, sample, sample_len, 2, 255);
-	adpcm_driver_play((struct adpcm_driver *)&driver, 3, sample, sample_len, 0, 255);
+	adpcm_driver_play((struct adpcm_driver *)&driver, 2, sample, sample_len, 4, 255, 0);
+	adpcm_driver_play((struct adpcm_driver *)&driver, 4, sample, sample_len, 2, 255, 0);
+	adpcm_driver_play((struct adpcm_driver *)&driver, 3, sample, sample_len, 0, 255, 0);
 
 	SF_INFO sfinfo = {
 		.samplerate = opt_sample_rate,
