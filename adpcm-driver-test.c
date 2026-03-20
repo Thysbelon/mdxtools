@@ -35,8 +35,8 @@ int main(int argc, char **argv) {
 		.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16,
 	};
 	char wavname[256];
-	printf("Outputting to %s\n", wavname);
 	replace_ext(wavname, sizeof(wavname), argv[1], "wav");
+	printf("Outputting to %s\n", wavname);
 	SNDFILE *file = sf_open(wavname, SFM_WRITE, &sfinfo);
 	if(!file) {
 		printf("Failed to open file for writing\n");
