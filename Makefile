@@ -66,7 +66,7 @@ pdx2sf2: sf2cute/build/libsf2cute.a
 pdx2sf2_LIBS=sf2cute/build/libsf2cute.a
 
 ifneq (,$(findstring MINGW,$(shell uname -s)))
-pdx2sf2_LIBS+= -static-libstdc++ -lole32 -luuid -lshlwapi -Wl,-Bstatic -lpthread
+pdx2sf2_LIBS+= -static-libstdc++ -static
 endif
 
 # Tests
