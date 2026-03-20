@@ -115,7 +115,7 @@ midilib/libmidi.a:
 	cd midilib && make CC=gcc libmidi.a
 
 sf2cute/build/libsf2cute.a:
-	cd sf2cute && cmake -B build CC=gcc . && cd build && make
+	cd sf2cute && cmake -B build . && cd build && make
 
 -include $(OBJS:.o=.d)
 
