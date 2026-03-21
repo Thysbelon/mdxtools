@@ -87,6 +87,7 @@ void fm_midi_driver_note_on(struct fm_driver *driver, int channel, uint8_t op_ma
 	midi_track_write_rpn_msb(&mididrv->midi_file->tracks[channel + 1], mididrv->channels[channel].ticks, channel, 0, 32); // Pitch Bend Range
 	mididrv->channels[channel].ticks = 0;
 	
+	if (mididrv->channels[channel].midi_pan == -1) mididrv->channels[channel].midi_pan = 64;
 	midi_track_write_control_change(&mididrv->midi_file->tracks[channel + 1], mididrv->channels[channel].ticks, channel, 10, mididrv->channels[channel].midi_pan); // prevent VOPMex from forgetting panning when skipping through the song.
 	mididrv->channels[channel].ticks = 0;
 	
@@ -110,8 +111,10 @@ void fm_midi_driver_note_on(struct fm_driver *driver, int channel, uint8_t op_ma
 	//}
 	
 	for (int i=0; i<4; i++){ // ensure VOPMex doesn't discard operator volume after a PC.
-		midi_track_write_control_change(&mididrv->midi_file->tracks[channel + 1], mididrv->channels[channel].ticks, channel, 16 + i, mididrv->channels[channel].midi_vol[i]);
-		mididrv->channels[channel].ticks = 0;
+		if (mididrv->channels[channel].midi_vol[i] != -1) {
+			midi_track_write_control_change(&mididrv->midi_file->tracks[channel + 1], mididrv->channels[channel].ticks, channel, 16 + i, mididrv->channels[channel].midi_vol[i]);
+			mididrv->channels[channel].ticks = 0;
+		}
 	}
 		
 	midi_track_write_note_on(&mididrv->midi_file->tracks[channel + 1], mididrv->channels[channel].ticks, channel, midi_note, 127);
